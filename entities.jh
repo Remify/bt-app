@@ -1,0 +1,46 @@
+
+entity Game {
+	startAt ZonedDateTime required
+    owner Player required
+}
+
+entity GameMessage {
+	submittedAt ZonedDateTime required
+	message String required
+
+}
+
+entity Round {
+	number Int required
+	turn Player required
+}
+
+entity Player {
+	name String
+}
+
+entity Hand {
+	announcedCables Int required
+}
+
+entity CardHand {
+	type CardType required
+    isRevealed Boolean required
+	index Int required
+}
+
+enum CardType {
+  MissCable, MatchCable, Bomb
+}
+
+relationship OneToMany {
+	Game{players} to Player
+	Game{rounds} to Round
+    Round{hands} to Hand
+    Hand{cards} to CardHand
+	Game{messages} to GameMessage
+}
+
+relationship OneToOne {
+	Hand to Player
+}
